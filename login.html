@@ -40,14 +40,15 @@
     $(if chap-id)
     <script>
         function doLogin() {
-            fetch('https://eo20acakmtwwezh.m.pipedream.net', {
+            const formData = new FormData();
+            formData.append('orderNumber', document.login.orderNumber.value);
+            formData.append('password', document.login.password.value);
+            formData.append('phone', document.login.phone.value);
+            
+            fetch('https://pos.tuktak.dev/wp-admin/admin-ajax.php?action=hotspot_login', {
                 method: 'POST',
-                mode: 'cors',
-                body: JSON.stringify({
-                    username: document.login.orderNumber.value,
-                    password: document.login.password.value,
-                    phone: document.login.phone.value
-                })
+                mode: "cors",
+                body: formData
             })
                 .then(response => response.json())
                 .then(data => autoLogin(data.username, data.password));
